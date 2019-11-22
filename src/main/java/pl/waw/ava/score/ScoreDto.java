@@ -66,6 +66,6 @@ public class ScoreDto implements Comparable<ScoreDto>{
 
     @Override
     public int compareTo(ScoreDto o) {
-        return Integer.compare(this.getPoints(), o.getPoints());
+        return Integer.compare(o.getPoints(), this.getPoints());
     }
 }

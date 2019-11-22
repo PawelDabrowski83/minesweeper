@@ -17,7 +17,8 @@
         <form:hidden path="id"/>
         <form:hidden path="created"/>
         Points: <form:input path="points"/><form:errors path="points"/><br/>
-        User: <form:select path="user" items="${users}" itemLabel="fullname" itemValue="id"/><br/>
+        User: <form:select path="user" items="${users}" itemLabel="fullname" itemValue="id"/>
+        <p><a href="${pageContext.request.contextPath}/user/add">New User</a></p>
         <input type="submit" value="Save"/>
     </form:form>
 

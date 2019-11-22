@@ -4,3 +4,15 @@ insert into user (created, firstName, lastName) VALUES (now(), "Janina", "Wnyk")
 insert into user (created, firstName, lastName) VALUES (now(), "Lucyna", "Globisz");
 insert into user (created, firstName, lastName) VALUES (now(), "Teresa", "Zimorodek");
 insert into user (created, firstName, lastName) VALUES (now(), "Czeslaw", "Herbata");
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));
+insert into score (created, points, user_id) values (now(), FLOOR(RAND()*100), FLOOR(RAND()*5));

@@ -17,6 +17,6 @@
 
     <p><a href="${pageContext.request.contextPath}/user/manage">Manage Users</a></p>
 
-    <p><a href=""</p>
+    <p><a href="${pageContext.request.contextPath}/score/manage">Manage Scores</a></p>
 </body>
 </html>
