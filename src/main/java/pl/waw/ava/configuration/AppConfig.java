@@ -48,7 +48,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("main/resources/META-INF/static/html/");
+        registry.addResourceHandler("/static/**").addResourceLocations("/static/html/");
     }
 
     @Override
