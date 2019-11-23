@@ -7,52 +7,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const timerDiv = document.querySelector('#timer');
     const mainDiv = document.querySelector('#main');
 
+    let myGrid;
+    let cellMemory = [];
+    let myFlags;
+    let timerSeconds = 0;
+    let countMyTime;
 
+    /*
+            INTRO - przycisk startowy
+    */
+    const FIELD_WIDTH = 10;
+    const FIELD_HEIGHT = 10;
+    const BOMB_COUNT = 10;
 
+    const startBtn = document.createElement('button');
+    startBtn.innerText = "Rozpocznij grę";
+    const flagDisplay = document.createElement('h1');
+    const timerDisplay = document.createElement('h2');
+    startGame();
 
-        let myGrid;
-        let cellMemory = [];
-        let myFlags;
-        let timerSeconds = 0;
-        let countMyTime;
-
-        /*
-                INTRO - przycisk startowy
-        */
-        const FIELD_WIDTH = 10;
-        const FIELD_HEIGHT = 10;
-        const BOMB_COUNT = 10;
-
-        const startBtn = document.createElement('button');
-        startBtn.innerText = "Rozpocznij grę";
-
-        const flagDisplay = document.createElement('h1');
-        const timerDisplay = document.createElement('h2');
-        startGame();
-        function startGame() {
-                clearAll();
-                // clearMain();
-                // clearScore();
-                // clearInterval(countMyTime);
-                // timerSeconds = 0;
-                mainDiv.appendChild(startBtn);
-            startBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                setField(FIELD_WIDTH, FIELD_HEIGHT, BOMB_COUNT);
-                myFlags = BOMB_COUNT;
-                const newGameBtn = document.createElement('button');
-                newGameBtn.classList.add('newGame');
-                newGameBtn.addEventListener('click', startGame);
-                newGameBtn.innerText = "Nowa gra";
-                clearScore();
-                clearInterval(countMyTime);
-                scoreDiv.appendChild(newGameBtn);
-                scoreDiv.appendChild(flagDisplay);
-                timerDiv.appendChild(timerDisplay);
-                setCounter();
-                setTimer();
-            });
-        }
     /*
             TWORZENIE POLA MINOWEGO
      */
@@ -124,13 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
     Grid.prototype.checkNeighbours = function(row, col) {
         let neighbouringMines = 0;
         neighbouringMines +=    this.check((row - 1),   (col - 1)   ) +
-            this.check((row - 1),    col        ) +
-            this.check((row - 1),   (col + 1)   ) +
-            this.check( row,        (col - 1)   ) +
-            this.check( row,        (col + 1)   ) +
-            this.check((row + 1),   (col - 1)   ) +
-            this.check((row + 1),    col        ) +
-            this.check((row + 1),   (col + 1)   );
+                                this.check((row - 1),    col        ) +
+                                this.check((row - 1),   (col + 1)   ) +
+                                this.check( row,        (col - 1)   ) +
+                                this.check( row,        (col + 1)   ) +
+                                this.check((row + 1),   (col - 1)   ) +
+                                this.check((row + 1),    col        ) +
+                                this.check((row + 1),   (col + 1)   );
         return neighbouringMines;
     };
 
@@ -150,25 +123,35 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             if (this.checkNeighbours(row, col) === 0) {
                 // const neighbouringCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "'+(col - 1)+'"]');
-                //     console.log(neighbouringCell);
-                //     this.stepOn((row - 1), (col - 1), myGrid);
-                // this.stepOn((row - 1), col);
-                // this.stepOn((row -1), (col + 1));
-                // this.stepOn(row, (col - 1));
-                // this.stepOn(row, (col + 1));
-                // this.stepOn((row + 1), (col - 1));
-                // this.stepOn((row + 1), col);
-                // this.stepOn((row + 1), (col + 1));
                 return this.checkNeighbours(row, col);
             }
             return this.checkNeighbours(row, col);
         }
     };
 
-
     /*
             FUNKCJE
      */
+    function startGame() {
+        clearAll();
+        mainDiv.appendChild(startBtn);
+        startBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            setField(FIELD_WIDTH, FIELD_HEIGHT, BOMB_COUNT);
+            myFlags = BOMB_COUNT;
+            const newGameBtn = document.createElement('button');
+            newGameBtn.classList.add('newGame');
+            newGameBtn.addEventListener('click', startGame);
+            newGameBtn.innerText = "Nowa gra";
+            clearScore();
+            clearInterval(countMyTime);
+            scoreDiv.appendChild(newGameBtn);
+            scoreDiv.appendChild(flagDisplay);
+            timerDiv.appendChild(timerDisplay);
+            setCounter();
+            setTimer();
+        });
+    }
 
     function setField(rows, cols, bombs){
         myGrid = new Grid(rows, cols);
@@ -277,7 +260,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.removeEventListener('contextmenu', cellClickedRight);
             });
         }
-
     }
-
 });
