@@ -1,12 +1,18 @@
 td {
-    border: 1px solid black;
-    width: 20px;
-    height: 20px;
+    border: 1px black;
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .exploded {
     color: ghostwhite;
     background-color: indianred;
+    font-weight: bold;
 }
 
 .flagged {

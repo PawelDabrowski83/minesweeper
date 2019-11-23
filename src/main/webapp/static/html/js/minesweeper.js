@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newGameBtn.addEventListener('click', startGame);
                 newGameBtn.innerText = "Nowa gra";
                 clearScore();
+                clearInterval(countMyTime);
                 scoreDiv.appendChild(newGameBtn);
                 scoreDiv.appendChild(flagDisplay);
                 timerDiv.appendChild(timerDisplay);

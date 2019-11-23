@@ -13,7 +13,7 @@
     <title>Minesweeper</title>
 </head>
 <body>
-    <p>home</p>
+<p><a href="static/minesweeper.html">PLAY GAME</a></p>
 
     <p><a href="${pageContext.request.contextPath}/user/manage">Manage Users</a></p>
 
