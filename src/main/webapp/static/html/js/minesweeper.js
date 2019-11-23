@@ -6,35 +6,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const scoreDiv = document.querySelector('#score');
     const timerDiv = document.querySelector('#timer');
     const mainDiv = document.querySelector('#main');
-    let myGrid;
-    let cellMemory = [];
-    let myFlags;
-    let timerSeconds = 0;
-    let countMyTime;
 
-    /*
-            INTRO - przycisk startowy
-    */
-    const FIELD_WIDTH = 10;
-    const FIELD_HEIGHT = 10;
-    const BOMB_COUNT = 10;
 
-    const startBtn = document.createElement('button');
-    startBtn.innerText = "Rozpocznij grę";
-    mainDiv.appendChild(startBtn);
-    const flagDisplay = document.createElement('h1');
-    const timerDisplay = document.createElement('h2');
 
-    startBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        setField(FIELD_WIDTH, FIELD_HEIGHT, BOMB_COUNT);
-        myFlags = BOMB_COUNT;
-        scoreDiv.appendChild(flagDisplay);
-        timerDiv.appendChild(timerDisplay);
-        setCounter();
-        setTimer();
-    });
 
+        let myGrid;
+        let cellMemory = [];
+        let myFlags;
+        let timerSeconds = 0;
+        let countMyTime;
+
+        /*
+                INTRO - przycisk startowy
+        */
+        const FIELD_WIDTH = 10;
+        const FIELD_HEIGHT = 10;
+        const BOMB_COUNT = 10;
+
+        const startBtn = document.createElement('button');
+        startBtn.innerText = "Rozpocznij grę";
+
+        const flagDisplay = document.createElement('h1');
+        const timerDisplay = document.createElement('h2');
+        startGame();
+        function startGame() {
+                clearAll();
+                // clearMain();
+                // clearScore();
+                // clearInterval(countMyTime);
+                // timerSeconds = 0;
+                mainDiv.appendChild(startBtn);
+            startBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                setField(FIELD_WIDTH, FIELD_HEIGHT, BOMB_COUNT);
+                myFlags = BOMB_COUNT;
+                const newGameBtn = document.createElement('button');
+                newGameBtn.classList.add('newGame');
+                newGameBtn.addEventListener('click', startGame);
+                newGameBtn.innerText = "Nowa gra";
+                clearScore();
+                scoreDiv.appendChild(newGameBtn);
+                scoreDiv.appendChild(flagDisplay);
+                timerDiv.appendChild(timerDisplay);
+                setCounter();
+                setTimer();
+            });
+        }
     /*
             TWORZENIE POLA MINOWEGO
      */
@@ -126,6 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.removeEventListener('click', cellClicked);
                 item.removeEventListener('contextmenu', cellClickedRight);
             });
+            flagDisplay.innerText = "Booooooooom!";
+            clearInterval(countMyTime);
             return 'X';
         } else {
             if (this.checkNeighbours(row, col) === 0) {
@@ -160,6 +179,26 @@ document.addEventListener('DOMContentLoaded', function() {
         while (mainDiv.firstChild) {
             mainDiv.removeChild(mainDiv.firstChild);
         }
+    }
+
+    function clearScore() {
+        while (scoreDiv.firstChild) {
+            scoreDiv.removeChild(scoreDiv.firstChild);
+        }
+    }
+
+    function clearTimer() {
+        while (timerDiv.firstChild) {
+            timerDiv.removeChild(timerDiv.firstChild);
+        }
+    }
+
+    function clearAll() {
+        clearScore();
+        clearMain();
+        clearTimer();
+        clearInterval(countMyTime);
+        timerSeconds = 0;
     }
 
     function getRandom(limit) {
