@@ -124,10 +124,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'X';
         } else {
             if (this.checkNeighbours(row, col) === 0) {
-                button.dataset.checked = true;
+
                 // const neighbouringCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "'+(col - 1)+'"]');
                 return this.checkNeighbours(row, col);
             }
+            button.dataset.checked = true;
             return this.checkNeighbours(row, col);
         }
     };
