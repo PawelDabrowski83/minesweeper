@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const Field = function(row, col) {
         this.row = row;
         this.col = col;
+        this.checked = false;
         this.bomb = false;
     };
 
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const myCell = document.createElement('td');
                 myCell.dataset.row = i.toString();
                 myCell.dataset.col = j.toString();
+                myCell.dataset.checked = false;
                 myCell.addEventListener('click', cellClicked);
                 myCell.addEventListener('contextmenu', cellClickedRight);
                 cellMemory.push(myCell);
@@ -122,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'X';
         } else {
             if (this.checkNeighbours(row, col) === 0) {
+                button.dataset.checked = true;
                 // const neighbouringCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "'+(col - 1)+'"]');
                 return this.checkNeighbours(row, col);
             }
@@ -201,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function cellClickedRight(e) {
         let myCell = e.target;
         if (myCell.innerText.length === 1) {
-            console.log('do nothing');
             return;
         }
         if (myCell.classList.contains('flagged')) {
