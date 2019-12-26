@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const Field = function(row, col) {
         this.row = row;
         this.col = col;
+        this.checked = false;
         this.bomb = false;
     };
 
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const myCell = document.createElement('td');
                 myCell.dataset.row = i.toString();
                 myCell.dataset.col = j.toString();
+                myCell.dataset.checked = this.cellGrid[i][j].checked;
                 myCell.addEventListener('click', cellClicked);
                 myCell.addEventListener('contextmenu', cellClickedRight);
                 cellMemory.push(myCell);
@@ -121,6 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(countMyTime);
             return 'X';
         } else {
+            button.dataset.checked = true;
+            button.classList.add('checked');
             if (this.checkNeighbours(row, col) === 0) {
                 // const neighbouringCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "'+(col - 1)+'"]');
                 return this.checkNeighbours(row, col);
