@@ -121,8 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     Grid.prototype.stepOn = function(row, col, button) {
-        row = parseInt(row);
-        col = parseInt(col);
         if(this.check(row, col)) {
             // BOOOOOOOOOOOOM!!!!!!!!!!!!!!!!!!!!!!!!!
             button.classList.add('exploded');
@@ -136,16 +134,47 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             button.dataset.checked = true;
             if (this.checkNeighbours(row, col) === 0) {
-                // console.log("zero detected and empty N + " + this.isChecked((row - 1), col, button));
+                console.log('this.isChecked((row - 1), col)' + this.isChecked((row - 1), col));
                 if (!this.isChecked((row - 1), col)) {
                     const NButton = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col) + '"]');
+                    NButton.dataset.checked = true;
                     NButton.innerText = this.stepOn((row - 1), col, NButton);
                 }
                 if (!this.isChecked((row - 1), (col + 1))) {
                     const NEButton = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col + 1) + '"]');
+                    NEButton.dataset.checked = true;
                     NEButton.innerText = this.stepOn((row - 1), (col + 1), NEButton);
                 }
-                // const neighbouringCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "'+(col - 1)+'"]');
+                if (!this.isChecked(row, (col + 1))) {
+                    const EButton = document.querySelector('[data-row = "' + row + '"][data-col = "' + (col + 1) + '"]');
+                    EButton.dataset.checked = true;
+                    EButton.innerText = this.stepOn(row, (col + 1), EButton);
+                }
+                if (!this.isChecked((row + 1), (col + 1))) {
+                    const SEButton = document.querySelector('[data-row = "' + (row + 1) + '"][data-col = "' + (col + 1) + '"]');
+                    SEButton.dataset.checked = true;
+                    SEButton.innerText = this.stepOn((row + 1), (col + 1), SEButton);
+                }
+                // if (!this.isChecked((row + 1), col)) {
+                //     const SButton = document.querySelector('[data-row = "' + (row + 1) + '"][data-col = "' + col + '"]');
+                //     SButton.dataset.checked = true;
+                //     SButton.innerText = this.stepOn((row + 1), col, SButton);
+                // }
+                // if (!this.isChecked((row + 1), (col - 1))) {
+                //     const SWButton = document.querySelector('[data-row = "' + (row + 1) + '"][data-col = "' + (col - 1) + '"]');
+                //     SWButton.dataset.checked = true;
+                //     SWButton.innerText = this.stepOn((row + 1), (col - 1), SWButton);
+                // }
+                // if (!this.isChecked(row, (col - 1))) {
+                //     const WButton = document.querySelector('[data-row = "' + row + '"][data-col = "' + (col - 1) + '"]');
+                //     WButton.dataset.checked = true;
+                //     WButton.innerText = this.stepOn(row, (col - 1), WButton);
+                // }
+                // if (!this.isChecked((row - 1), (col - 1))) {
+                //     const NWButton = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col - 1) + '"]');
+                //     NWButton.dataset.checked = true;
+                //     NWButton.innerText = this.stepOn((row - 1), (col - 1), NWButton);
+                // }
                 return this.checkNeighbours(row, col);
             }
 
