@@ -96,6 +96,17 @@ document.addEventListener('DOMContentLoaded', function() {
         return 0;
     };
 
+    Grid.prototype.isChecked = function(row,col) {
+        if (row >= 0 && row < this.cellGrid.length && col >= 0 && col < this.cellGrid[0].length) {
+            if (this.cellGrid[row][col].checked) {
+                return 1;
+            }
+            return 0;
+        }
+        return 1;
+        // checked means that cell should not be processed
+    }
+
     Grid.prototype.checkNeighbours = function(row, col) {
         let neighbouringMines = 0;
         neighbouringMines +=    this.check((row - 1),   (col - 1)   ) +
@@ -123,12 +134,21 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(countMyTime);
             return 'X';
         } else {
+            button.dataset.checked = true;
             if (this.checkNeighbours(row, col) === 0) {
-
+                // console.log("zero detected and empty N + " + this.isChecked((row - 1), col, button));
+                if (!this.isChecked((row - 1), col)) {
+                    const NButton = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col) + '"]');
+                    NButton.innerText = this.stepOn((row - 1), col, NButton);
+                }
+                if (!this.isChecked((row - 1), (col + 1))) {
+                    const NEButton = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col + 1) + '"]');
+                    NEButton.innerText = this.stepOn((row - 1), (col + 1), NEButton);
+                }
                 // const neighbouringCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "'+(col - 1)+'"]');
                 return this.checkNeighbours(row, col);
             }
-            button.dataset.checked = true;
+
             return this.checkNeighbours(row, col);
         }
     };
