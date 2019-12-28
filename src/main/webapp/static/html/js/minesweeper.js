@@ -217,15 +217,50 @@ document.addEventListener('DOMContentLoaded', function() {
         let col = parseInt(myCell.dataset.col);
         if (myCell.innerText === "0" && myCell.dataset.row > 0) {
             const NCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col) + '"]');
-            if (!NCell.checked) {
+            if (NCell.innerText.length === 0) {
                 leadingZerosIterate(NCell);
             }
         }
-        console.log('myGrid ' + myGrid.cellGrid[0].length);
         if (myCell.innerText === "0" && myCell.dataset.row > 0 && myCell.dataset.col < (myGrid.cellGrid[0].length - 1)) {
             const NECell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col + 1) + '"]');
-            if (!NECell.checked) {
+            if (NECell.innerText.length === 0) {
                 leadingZerosIterate(NECell);
+            }
+        }
+        if (myCell.innerText === "0" && myCell.dataset.col < (myGrid.cellGrid[0].length - 1)) {
+            const ECell = document.querySelector('[data-row = "' + (row) + '"][data-col = "' + (col + 1) + '"]');
+            if (ECell.innerText.length === 0) {
+                leadingZerosIterate(ECell);
+            }
+        }
+        if (myCell.innerText === "0" && myCell.dataset.row < (myGrid.cellGrid.length - 1) && myCell.dataset.col < (myGrid.cellGrid[0].length - 1)) {
+            const SECell = document.querySelector('[data-row = "' + (row + 1) + '"][data-col = "' + (col + 1) + '"]');
+            if (SECell.innerText.length === 0) {
+                leadingZerosIterate(SECell);
+            }
+        }
+        if (myCell.innerText === "0" && myCell.dataset.row < (myGrid.cellGrid.length - 1)) {
+            const SCell = document.querySelector('[data-row = "' + (row + 1) + '"][data-col = "' + (col) + '"]');
+            if (SCell.innerText.length === 0) {
+                leadingZerosIterate(SCell);
+            }
+        }
+        if (myCell.innerText === "0" && myCell.dataset.row < (myGrid.cellGrid.length - 1) && myCell.dataset.col > 0) {
+            const SWCell = document.querySelector('[data-row = "' + (row + 1) + '"][data-col = "' + (col - 1) + '"]');
+            if (SWCell.innerText.length === 0) {
+                leadingZerosIterate(SWCell);
+            }
+        }
+        if (myCell.innerText === "0" && myCell.dataset.col > 0) {
+            const WCell = document.querySelector('[data-row = "' + (row) + '"][data-col = "' + (col - 1) + '"]');
+            if (WCell.innerText.length === 0) {
+                leadingZerosIterate(WCell);
+            }
+        }
+        if (myCell.innerText === "0" && myCell.dataset.row > 0 && myCell.dataset.col > 0) {
+            const NWCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col - 1) + '"]');
+            if (NWCell.innerText.length === 0) {
+                leadingZerosIterate(NWCell);
             }
         }
     }
@@ -255,8 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setTimer() {
-        // let countMyTime =
-        setInterval(function () {
+        const countMyTime = setInterval(function countMyTime() {
             timerSeconds++;
             printTimer();
         }, 1000);
