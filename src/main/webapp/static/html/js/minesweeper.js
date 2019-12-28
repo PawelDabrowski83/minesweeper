@@ -1,7 +1,9 @@
 "use strict";
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.addEventListener('contextmenu', e => { e.preventDefault();});
+    document.addEventListener('contextmenu', e => {
+        e.preventDefault();
+    });
 
     const scoreDiv = document.querySelector('#score');
     const timerDiv = document.querySelector('#timer');
@@ -30,32 +32,32 @@ document.addEventListener('DOMContentLoaded', function() {
             TWORZENIE POLA MINOWEGO
      */
 
-    const Field = function(row, col) {
+    const Field = function (row, col) {
         this.row = row;
         this.col = col;
         this.checked = false;
         this.bomb = false;
     };
 
-    const Grid = function(rows, cols) {
+    const Grid = function (rows, cols) {
         this.cellGrid = [];
-        if(rows > 9 && cols > 9) {
+        if (rows > 9 && cols > 9) {
             for (let i = 0; i < rows; i++) {
                 this.cellGrid[i] = [];
                 for (let j = 0; j < cols; j++) {
-                    this.cellGrid[i][j] = new Field(i,j);
+                    this.cellGrid[i][j] = new Field(i, j);
                 }
             }
         }
     };
 
-    Grid.prototype.addBombs = function(number){
-        if(number > 0 && number < (this.cellGrid.length * this.cellGrid[0].length)){
+    Grid.prototype.addBombs = function (number) {
+        if (number > 0 && number < (this.cellGrid.length * this.cellGrid[0].length)) {
             let bombsToPlant = number;
-            while(bombsToPlant > 0) {
+            while (bombsToPlant > 0) {
                 let randomRow = getRandom(this.cellGrid.length - 1);
                 let randomCol = getRandom(this.cellGrid[0].length - 1);
-                if(!this.cellGrid[randomRow][randomCol].bomb) {
+                if (!this.cellGrid[randomRow][randomCol].bomb) {
                     this.cellGrid[randomRow][randomCol].bomb = true;
                     bombsToPlant--;
                 }
@@ -63,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    Grid.prototype.drawGrid = function() {
+    Grid.prototype.drawGrid = function () {
         clearMain();
         const table = document.createElement('table');
         const tBody = document.createElement('tbody');
@@ -86,9 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mainDiv.appendChild(table);
     };
 
-    Grid.prototype.check = function(row, col) {
-        if(row >= 0 && row < this.cellGrid.length && col >= 0 && col < this.cellGrid[0].length) {
-            if(this.cellGrid[row][col].bomb) {
+    Grid.prototype.check = function (row, col) {
+        if (row >= 0 && row < this.cellGrid.length && col >= 0 && col < this.cellGrid[0].length) {
+            if (this.cellGrid[row][col].bomb) {
                 return 1;
             }
             return 0;
@@ -96,23 +98,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return 0;
     };
 
-    Grid.prototype.checkNeighbours = function(row, col) {
+    Grid.prototype.checkNeighbours = function (row, col) {
         let neighbouringMines = 0;
-        neighbouringMines +=    this.check((row - 1),   (col - 1)   ) +
-                                this.check((row - 1),    col        ) +
-                                this.check((row - 1),   (col + 1)   ) +
-                                this.check( row,        (col - 1)   ) +
-                                this.check( row,        (col + 1)   ) +
-                                this.check((row + 1),   (col - 1)   ) +
-                                this.check((row + 1),    col        ) +
-                                this.check((row + 1),   (col + 1)   );
+        neighbouringMines += this.check((row - 1), (col - 1)) +
+            this.check((row - 1), col) +
+            this.check((row - 1), (col + 1)) +
+            this.check(row, (col - 1)) +
+            this.check(row, (col + 1)) +
+            this.check((row + 1), (col - 1)) +
+            this.check((row + 1), col) +
+            this.check((row + 1), (col + 1));
         return neighbouringMines;
     };
 
-    Grid.prototype.stepOn = function(row, col, button) {
+    Grid.prototype.stepOn = function (row, col, button) {
         row = parseInt(row);
         col = parseInt(col);
-        if(this.check(row, col)) {
+        if (this.check(row, col)) {
             // BOOOOOOOOOOOOM!!!!!!!!!!!!!!!!!!!!!!!!!
             button.classList.add('exploded');
             cellMemory.forEach(function (item) {
@@ -123,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(countMyTime);
             return 'X';
         } else {
-            button.dataset.checked = true;
+            button.dataset.checked = "true";
             this.cellGrid[row][col].checked = true;
             button.classList.add('checked');
             if (this.checkNeighbours(row, col) === 0) {
@@ -158,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function setField(rows, cols, bombs){
+    function setField(rows, cols, bombs) {
         myGrid = new Grid(rows, cols);
         myGrid.addBombs(bombs);
         myGrid.drawGrid();
@@ -201,6 +203,38 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         myCell.innerText = myGrid.stepOn(myCell.dataset.row, myCell.dataset.col, myCell);
+        leadingZeros(myCell);
+        // if (myCell.innerText === "0") {
+        //     const NCell = document.querySelector('[data-row = "' + (myCell.dataset.row - 1) + '"][data-col = "' + (myCell.dataset.col) + '"]');
+        //     NCell.innerText = myGrid.stepOn(NCell.dataset.row, NCell.dataset.col, NCell);
+        //     // console.log(NCell);
+        //     // console.log('myCell.dataset.row - ' + myCell.dataset.row + ' // myCell.dataset.col - ' + myCell.dataset.col);
+        // }
+    }
+
+    function leadingZeros(myCell) {
+        let row = parseInt(myCell.dataset.row);
+        let col = parseInt(myCell.dataset.col);
+        if (myCell.innerText === "0" && myCell.dataset.row > 0) {
+            const NCell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col) + '"]');
+            if (!NCell.checked) {
+                leadingZerosIterate(NCell);
+            }
+        }
+        console.log('myGrid ' + myGrid.cellGrid[0].length);
+        if (myCell.innerText === "0" && myCell.dataset.row > 0 && myCell.dataset.col < (myGrid.cellGrid[0].length - 1)) {
+            const NECell = document.querySelector('[data-row = "' + (row - 1) + '"][data-col = "' + (col + 1) + '"]');
+            if (!NECell.checked) {
+                leadingZerosIterate(NECell);
+            }
+        }
+    }
+
+    function leadingZerosIterate(myCell) {
+        myCell.innerText = myGrid.stepOn(myCell.dataset.row, myCell.dataset.col, myCell);
+        if (myCell.innerText === "0" && myCell.dataset.row > 0) {
+            leadingZeros(myCell);
+        }
     }
 
     function cellClickedRight(e) {
@@ -221,7 +255,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setTimer() {
-        countMyTime = setInterval(function() {
+        // let countMyTime =
+        setInterval(function () {
             timerSeconds++;
             printTimer();
         }, 1000);
