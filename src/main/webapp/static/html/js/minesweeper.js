@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (let i = 0; i < this.cellGrid.length; i++) {
             const myRow = document.createElement('tr');
+            cellMemory = [];
             for (let j = 0; j < this.cellGrid[i].length; j++) {
                 const myCell = document.createElement('td');
                 myCell.dataset.row = i.toString();
@@ -290,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function setTimer() {
-        const countMyTime = setInterval(function countMyTime() {
+        countMyTime = setInterval(function () {
             timerSeconds++;
             printTimer();
         }, 1000);
@@ -320,9 +321,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkWygrana() {
         console.log('checkwygrana');
         let epicWin = true;
+        console.log(cellMemory);
         cellMemory.forEach(function (item) {
-            if (item.classList.contains('flagged') && myGrid.check(item.dataset.row, item.dataset.col) === 0) {
+            console.log(myGrid.cellGrid[item.dataset.row][item.dataset.col].bomb);
+            if (item.classList.contains('flagged')) {
+                //&& !myGrid.cellGrid[item.dataset.row][item.dataset.col].bomb) {
                 // nothing
+
                 epicWin = false;
             }
         });
